@@ -1,0 +1,14 @@
+auth-db:
+  auth:
+    enablePostgresUser: true
+    postgresPassword: "superpassword"
+    username: "postgresql"
+    password: "password"
+    database: "gomsa"
+  primary:
+    persistence:
+      enabled: false
+    service:
+      ports:
+        postgresql: 5432
+    

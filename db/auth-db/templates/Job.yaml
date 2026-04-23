@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "auth-db.fullname" . }}-migration
+  annotations:
+    # 헬름 설치/업그레이드 시점에 실행되도록 설정
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: goose
+          image: mygoose # 또는 goose가 설치된 커스텀 이미지
+          imagePullPolicy: Never
+          command: ["/bin/sh", "-c"]
+          args: 
+            - |
+              MAX_RETRIES=50
+              COUNT=0
+
+              until nc -z {{ .Release.Name }}-auth-db 5432; do
+                COUNT=$((COUNT + 1))
+                if [ "$COUNT" -ge "$MAX_RETRIES" ]; then
+                  echo "DB Retry Count over"
+                  exit 1
+                fi
+
+                echo "wating for db... ($COUNT/$MAX_RETRIES)"
+                sleep 2
+              done
+
+              goose -dir /migrations postgres \
+              "host={{ .Release.Name }}-auth-db user=postgresql password=password dbname=user sslmode=disable" up
+          volumeMounts:
+            - name: sql-files
+              mountPath: /migrations
+      volumes:
+        - name: sql-files
+          configMap:
+            name: {{ include "auth-db.fullname" . }}-init-sql
+      restartPolicy: OnFailure
+  backoffLimit: 5
