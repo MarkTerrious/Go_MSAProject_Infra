@@ -5,5 +5,5 @@ metadata:
 data:
 {{- range $path, $bytes := .Files.Glob "schema/*.sql" }}
   {{- base $path | nindent 2 }}: |
-{{ $.Files.Get $path | indent 4 }}
+{{- $.Files.Get $path | nindent 4 }}
 {{- end }}

@@ -32,7 +32,7 @@ spec:
               done
 
               goose -dir /migrations postgres \
-              "host={{ .Release.Name }}-auth-db user=postgresql password=password dbname=user sslmode=disable" up
+              "host={{ .Release.Name }}-auth-db user=postgresql password=password dbname=gomsa sslmode=disable" up
           volumeMounts:
             - name: sql-files
               mountPath: /migrations
