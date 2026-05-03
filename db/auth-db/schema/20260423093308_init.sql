@@ -15,7 +15,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION set_updated_at(_tbl regclass)
 RETURNS void AS $$
 BEGIN
-  EXECUTE format('DROP FUNCTION IF EXISTS automatic_updated_at ON %s;', _tbl);
+  EXECUTE format('DROP TRIGGER IF EXISTS automatic_updated_at ON %s;', _tbl);
   EXECUTE format('
     CREATE TRIGGER automatic_updated_at
     BEFORE UPDATE ON %s
