@@ -4,7 +4,7 @@ metadata:
   name: {{ include "auth-db.fullname" . }}-migration
   annotations:
     # 헬름 설치/업그레이드 시점에 실행되도록 설정
-    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook": post-install
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
@@ -20,7 +20,8 @@ spec:
               MAX_RETRIES=50
               COUNT=0
 
-              until nc -z {{ .Release.Name }}-auth-db 5432; do
+              echo "Network Confirm Test"
+              until nc -z auth-db 5432; do
                 COUNT=$((COUNT + 1))
                 if [ "$COUNT" -ge "$MAX_RETRIES" ]; then
                   echo "DB Retry Count over"
@@ -30,9 +31,10 @@ spec:
                 echo "wating for db... ($COUNT/$MAX_RETRIES)"
                 sleep 2
               done
+              echo "....."
 
               goose -dir /migrations postgres \
-              "host={{ .Release.Name }}-auth-db user=postgresql password=password dbname=gomsa sslmode=disable" up
+              "host=auth-db user=postgresql password=password dbname=gomsa sslmode=disable" up
           volumeMounts:
             - name: sql-files
               mountPath: /migrations

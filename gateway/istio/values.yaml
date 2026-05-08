@@ -1,0 +1,4 @@
+gateway:
+  _internal_defaults_do_not_set:
+    service:
+      type: NodePort

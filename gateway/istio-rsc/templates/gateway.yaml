@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external-gateway    # gateway 이름
+  namespace: istio-ingress  # gateway 설치된 namespace
+  annotations:
+    networking.istio.io/service-type: NodePort
+spec:
+  gatewayClassName: istio   # istio gateway class 사용
+
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    hostname: "ticketing.test"  # 외부 도메인
+
+    allowedRoutes:
+      namespaces:
+        from: All   # 다른 namespace의 route 허용
