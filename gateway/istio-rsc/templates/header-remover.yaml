@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: header-remover
+  namespace: {{ .Values.gateway.namespace }}
+spec:
+  # 적용 대상 설정
+  workloadSelector:
+    labels:
+      gateway.networking.k8s.io/gateway-name: {{ .Values.gateway.name }}
+  configPatches:
+  # -- applyTo
+  # VIRTUAL_HOST        : 해당 도메인으로 오는 모든 요청
+  # HTTP_FILTER         : HTTP 필터 체인 전체
+  # NETWORK_FILTER      : 네트워크 필터
+  # LISTENER            : 리스너 전체
+  # ROUTE_CONFIGURATION : 라우팅 테이블 전체 
+  - applyTo: VIRTUAL_HOST
+    match:
+      context: GATEWAY  # Gateway로 동작하는 Envoy
+    patch:
+      operation: MERGE  # 기존 설정에 병합
+      value:
+        request_headers_to_remove:
+        - user-id
+        - user-role
+        - x-jwt-payload

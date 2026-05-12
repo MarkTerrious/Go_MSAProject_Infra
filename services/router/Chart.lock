@@ -1,0 +1,6 @@
+dependencies:
+- name: router
+  repository: oci://ghcr.io/apollographql/helm-charts
+  version: 2.14.0
+digest: sha256:6ea27645cee95c8704fa31366cf6cb19762c9a4b66ce05aaec971ccf273abe91
+generated: "2026-05-08T17:33:21.3754842+09:00"

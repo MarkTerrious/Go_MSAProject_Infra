@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: waypoint
-  namespace: default
+  name: {{ .Values.waypoint.name }}
+  namespace: {{ .Values.waypoint.namespace }}
   annotations:
     istio.io/waypoint-for: service
 spec:

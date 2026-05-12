@@ -1,0 +1,15 @@
+# targetRef 안해주면 배포한 네임스페이스 전체 대상
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: jwt-auth
+  namespace: {{ .Values.namespace }}
+spec:
+  targetRef: 
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: {{ .Values.waypoint.name }}
+  jwtRules:
+  - issuer: "auth-service"
+    jwksUri: "http://auth-service.default.svc.cluster.local/.well-known/jwks.json"
+    outputPayloadToHeader: x-jwt-payload   # 검증 성공 시 헤더로 추출

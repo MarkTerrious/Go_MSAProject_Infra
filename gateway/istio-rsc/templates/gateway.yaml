@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: external-gateway    # gateway 이름
-  namespace: istio-ingress  # gateway 설치된 namespace
+  name: {{ .Values.gateway.name }}    # gateway 이름
+  namespace: {{ .Values.gateway.namespace }}  # gateway 설치된 namespace
   annotations:
     networking.istio.io/service-type: NodePort
 spec:

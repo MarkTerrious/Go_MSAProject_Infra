@@ -1,0 +1,97 @@
+apollo-router:
+
+  replicaCount: 1
+
+  fullnameOverride: "router"
+
+  # -- See https://www.apollographql.com/docs/graphos/reference/router/configuration#yaml-config-file for yaml structure
+  router:
+    configuration:
+      supergraph:
+        listen: 0.0.0.0:4000
+      health_check:
+        listen: 0.0.0.0:8088
+      include_subgraph_errors:
+        all: true
+      headers:                        
+        all:                           # 모든 subgraph 대상
+          request:
+            - propagate:
+                named: "authorization" # 대/소문자 구분 x
+            - propagate:
+                named: "cookie"
+          response:
+            - propagate:
+                named: "set-cookie"
+
+    args:
+      - --hot-reload
+
+  managedFederation:
+    apiKey:
+    existingSecret:
+    existingSecretKeyRefKey:
+    graphRef: ""
+
+  initContainers:
+    - name: compose-supergraph
+      image: rover:latest
+      imagePullPolicy: Never
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          set -e 
+          cat > /tmp/supergraph.yaml << 'SGEOF'
+          federation_version: =2.9.3
+          subgraphs:
+            auth:
+              routing_url: http://auth-svc.default.svc.cluster.local:8000/graphql
+              schema:
+                subgraph_url: http://auth-svc.default.svc.cluster.local:8000/graphql
+          SGEOF
+          rover supergraph compose --config /tmp/supergraph.yaml --output /schema/supergraph.graphql --elv2-license accept
+      volumeMounts:
+        - name: supergraph-schema
+          mountPath: /schema
+
+  extraEnvVars:
+    - name: APOLLO_ROUTER_SUPERGRAPH_PATH
+      value: /schema/supergraph.graphql
+
+  extraVolumeMounts:
+    - name: supergraph-schema
+      mountPath: /schema
+
+  extraVolumes:
+    - name: supergraph-schema
+      emptyDir: {}
+
+  containerPorts:
+    http: 4000
+    metrics: 9090
+    health: 8088
+
+  # -- Sets the restart policy of pods
+  restartPolicy: Always
+
+httpRoute:
+  enabled: true
+  annotations: {}
+  parentRefs:
+  - name: external-gateway
+    sectionName: http
+    namespace: istio-ingress
+  hostnames:
+  - ticketing.test
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /graphql
+    filters:
+    - type: URLRewrite
+      urlRewrite:
+        path:
+          type: ReplacePrefixMatch
+          replacePrefixMatch: /
+

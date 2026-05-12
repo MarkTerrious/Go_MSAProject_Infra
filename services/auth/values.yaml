@@ -110,17 +110,17 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+volumes: 
+- name: jwt-keys
+  secret:
+    secretName: jwt-keys
+    optional: false
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+volumeMounts: 
+  - name: jwt-keys
+    mountPath: "/app/keys"
+    readOnly: true
 
 nodeSelector: {}
 
@@ -137,5 +137,7 @@ env:
     value: auth-db.default-db.svc.cluster.local
   - name: DB_PORT
     value: "5432"
+  - name: PLAYGROUND
+    value: "/api/v1/auth/graphql"
 
 
