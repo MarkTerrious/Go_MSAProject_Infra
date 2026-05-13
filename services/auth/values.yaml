@@ -139,5 +139,7 @@ env:
     value: "5432"
   - name: PLAYGROUND
     value: "/api/v1/auth/graphql"
-
-
+  - name: JWT_PRIVATE_KEY_PATH
+    value: "./keys/private.pem"
+  - name: JWT_PUBLIC_KEY_PATH
+    value: "./keys/public.pem"

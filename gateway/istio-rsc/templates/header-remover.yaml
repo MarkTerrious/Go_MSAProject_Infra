@@ -4,24 +4,38 @@ metadata:
   name: header-remover
   namespace: {{ .Values.gateway.namespace }}
 spec:
-  # 적용 대상 설정
   workloadSelector:
     labels:
       gateway.networking.k8s.io/gateway-name: {{ .Values.gateway.name }}
   configPatches:
-  # -- applyTo
-  # VIRTUAL_HOST        : 해당 도메인으로 오는 모든 요청
-  # HTTP_FILTER         : HTTP 필터 체인 전체
-  # NETWORK_FILTER      : 네트워크 필터
-  # LISTENER            : 리스너 전체
-  # ROUTE_CONFIGURATION : 라우팅 테이블 전체 
+  # VIRTUAL_HOST: router 필터가 upstream 전달 전 적용 (jwt_authn 이후)
+  # → 클라이언트가 임의로 설정할 수 없는 서버 내부 헤더만 제거
   - applyTo: VIRTUAL_HOST
     match:
-      context: GATEWAY  # Gateway로 동작하는 Envoy
+      context: GATEWAY
     patch:
-      operation: MERGE  # 기존 설정에 병합
+      operation: MERGE
       value:
         request_headers_to_remove:
         - user-id
         - user-role
-        - x-jwt-payload
+  # HTTP_FILTER: jwt_authn 필터 실행 전에 삽입
+  # → 클라이언트가 보낸 x-jwt-payload spoofing 제거 후 jwt_authn이 검증된 값으로 세팅
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "envoy.filters.http.jwt_authn"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.filters.http.header_mutation
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.http.header_mutation.v3.HeaderMutation
+          mutations:
+            request_mutations:
+            - remove: "x-jwt-payload"

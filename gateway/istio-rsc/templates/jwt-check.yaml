@@ -3,13 +3,17 @@ apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: jwt-auth
-  namespace: {{ .Values.waypoint.namespace }}
+  namespace: {{ .Values.gateway.namespace }}
 spec:
-  targetRef: 
+  targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
-    name: {{ .Values.waypoint.name }}
+    name: {{ .Values.gateway.name }}
   jwtRules:
   - issuer: "auth-service"
-    jwksUri: "http://auth-service.default.svc.cluster.local/.well-known/jwks.json"
-    outputPayloadToHeader: x-jwt-payload   # 검증 성공 시 헤더로 추출
+    jwksUri: "http://auth-svc.default.svc.cluster.local:8000/.well-known/jwks.json"
+    fromHeaders:
+    - name: Authorization
+      prefix: "Bearer "
+    outputPayloadToHeader: x-jwt-payload   # 검증 성공 시 JWT payload를 base64로 인코딩하여 헤더로 전달
+

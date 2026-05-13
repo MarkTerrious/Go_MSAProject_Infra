@@ -20,3 +20,7 @@ fn supergraph_service(service) {
         }
     });
 }
+
+fn client_request(request) {
+    print("Incoming x-jwt-payload: " + request.headers["x-jwt-payload"]);
+}
