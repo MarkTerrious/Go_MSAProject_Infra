@@ -3,7 +3,7 @@ apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
   name: jwt-auth
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.waypoint.namespace }}
 spec:
   targetRef: 
     group: gateway.networking.k8s.io

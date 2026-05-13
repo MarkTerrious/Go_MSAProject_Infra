@@ -11,19 +11,35 @@ apollo-router:
         listen: 0.0.0.0:4000
       health_check:
         listen: 0.0.0.0:8088
+      cors:
+        policies:
+          - origins:
+              - http://ticketing.test
+            allow_credentials: true
+            methods:
+              - GET
+              - POST
+              - OPTIONS
+            allow_headers:
+              - content-type
+              - authorization
+              - x-jwt-payload
+              - cookie
+              - accept
       include_subgraph_errors:
-        all: true
-      headers:                        
+        all: true                      # 운영에선 false
+      headers:
         all:                           # 모든 subgraph 대상
           request:
+            - propagate:
+                named: "x-jwt-payload"
             - propagate:
                 named: "authorization" # 대/소문자 구분 x
             - propagate:
                 named: "cookie"
-          response:
-            - propagate:
-                named: "set-cookie"
-
+      rhai:
+        scripts: /rhai
+        main: router.rhai
     args:
       - --hot-reload
 
@@ -61,10 +77,15 @@ apollo-router:
   extraVolumeMounts:
     - name: supergraph-schema
       mountPath: /schema
+    - name: rhai-scripts
+      mountPath: /rhai
 
   extraVolumes:
     - name: supergraph-schema
       emptyDir: {}
+    - name: rhai-scripts
+      configMap:
+        name: rhai-cfg
 
   containerPorts:
     http: 4000
