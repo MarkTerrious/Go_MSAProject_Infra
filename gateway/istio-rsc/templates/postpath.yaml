@@ -17,3 +17,11 @@ spec:
       from:
         - source:
             notRequestPrincipals: ["*"]
+
+# 해당 경로 /api/v1/post* 의 HTTP METHOD 차단
+# 단 from 에서 jwt 없는 요청에 해당
+# => 해당 주소 메서드 + jwt(x) = 차단
+# => 해당 주소 메서드 + jwt(o) = 연결 허용
+# => 해당 주소 메서드가 Get 이라면 = 연결 허용
+
+
