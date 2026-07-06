@@ -69,6 +69,10 @@ apollo-router:
               routing_url: http://auth-svc.default.svc.cluster.local:8000/graphql
               schema:
                 subgraph_url: http://auth-svc.default.svc.cluster.local:8000/graphql
+            post:
+              routing_url: http://post-svc.default.svc.cluster.local:8000/graphql
+              schema:
+                subgraph_url: http://post-svc.default.svc.cluster.local:8000/graphql
           SGEOF
           rover supergraph compose --config /tmp/supergraph.yaml --output /schema/supergraph.graphql --elv2-license accept
       volumeMounts:

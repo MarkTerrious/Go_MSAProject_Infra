@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt-writes
+  namespace: istio-ingress
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: external-gateway
+  action: DENY
+  rules:
+    - to:
+        - operation:
+            paths: ["/api/v1/post/graphql", "/api/v1/auth/graphql"]
+
