@@ -109,6 +109,7 @@ $$;
 -- #region UpdateCommentFunction
 -- +goose StatementBegin
 CREATE OR REPLACE FUNCTION update_comment_function(
+  p_post_id     BIGINT,
   p_user_id     BIGINT,
   p_comment_id  BIGINT,
   p_image_ids   BIGINT[],
@@ -120,12 +121,15 @@ LANGUAGE plpgsql AS $$
 BEGIN
   -- Validation 해당 댓글이 유저가 작성한 것이 맞는가
   PERFORM id FROM post_comments
-  WHERE id = p_comment_id AND user_id = p_user_id FOR UPDATE;
+  WHERE 
+    id = p_comment_id AND 
+    user_id = p_user_id AND 
+    post_id = p_post_id
+  FOR UPDATE;
+  
   IF NOT FOUND THEN
     RAISE EXCEPTION 'comment % does not belong to user %', p_comment_id, p_user_id;
   END IF;
-
-  RAISE NOTICE 'POST LOCK';
 
   -- 기존 이미지 삭제
   UPDATE images
@@ -140,8 +144,6 @@ BEGIN
     id != ALL(p_image_ids) AND
     user_id = p_user_id;
 
-  RAISE NOTICE 'Image 삭제';
-
   -- 업데이트
   UPDATE images
   SET istatus = 'completed'
@@ -149,8 +151,6 @@ BEGIN
     user_id = p_user_id AND
     istatus = 'pending' AND
     id = ANY(p_image_ids);
-
-  RAISE NOTICE 'Image Update';
 
   -- 기존 댓글 내용 삭제
   DELETE FROM comments_block

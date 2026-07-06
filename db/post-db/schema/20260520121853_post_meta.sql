@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS post_comments(
 
 SELECT set_updated_at('post_comments');
 CREATE INDEX IF NOT EXISTS idx_post_comments_post ON post_comments(post_id, refer_id, created_at);
-CREATE INDEX IF NOT EXISTS idx_post_comments_user ON post_comments(user_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_post_comments_user ON post_comments(user_id, post_id, created_at);
 
 CREATE TABLE IF NOT EXISTS comments_block(
   id          BIGINT        GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
