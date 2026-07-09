@@ -19,8 +19,8 @@ apollo-router:
       cors:
         policies:
           - origins:
-              - http://ticketing.test
-            allow_credentials: true
+              - http://ticketing.test   # domain
+            allow_credentials: true     # cookie 
             methods:
               - GET
               - POST
