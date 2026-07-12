@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: go-auth
-  pullPolicy: Never         #IfNotPresent
+  repository: ghcr.io/markterrious/auth
+  pullPolicy: IfNotPresent         
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
