@@ -1,68 +1,61 @@
 replicaCount: 1
-
 image:
   repository: ghcr.io/markterrious/auth
-  pullPolicy: IfNotPresent         
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
+  tag: "6f5def49894a9a75b5355ee2e24af9d420032035"
 imagePullSecrets: []
-
 nameOverride: "auth"
 fullnameOverride: ""
-
 serviceAccount:
   create: true
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
   annotations: {}
   name: "auth-sa"
-
 # This is for setting Kubernetes Annotations to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
-
 podSecurityContext: {}
-  # fsGroup: 2000
+# fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
   type: ClusterIP
   port: 8000
-
 httpRoute:
   enabled: true
   annotations: {}
   parentRefs:
-  - name: external-gateway
-    sectionName: http
-    namespace: istio-ingress
+    - name: external-gateway
+      sectionName: http
+      namespace: istio-ingress
   # Hostnames matching HTTP header.
   hostnames:
-  - ticketing.test
+    - ticketing.test
   # List of rules and filters applied.
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /api/v1/auth
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/auth
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
   #   filters:
   #   - type: RequestHeaderModifier
   #     requestHeaderModifier:
@@ -78,28 +71,27 @@ httpRoute:
   #     headers:
   #     - name: version
   #       value: v2
-
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: http
+# httpGet:
+#   path: /
+#   port: http
 readinessProbe: {}
-  # httpGet:
-    # path: /
-    # port: http
+# httpGet:
+# path: /
+# port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
@@ -108,26 +100,20 @@ autoscaling:
   maxReplicas: 2
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-
 # Additional volumes on the output Deployment definition.
-volumes: 
-- name: jwt-keys
-  secret:
-    secretName: jwt-keys
-    optional: false
-
+volumes:
+  - name: jwt-keys
+    secret:
+      secretName: jwt-keys
+      optional: false
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: 
+volumeMounts:
   - name: jwt-keys
     mountPath: "/app/keys"
     readOnly: true
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
-
 env:
   - name: POD_NAME
     valueFrom:
