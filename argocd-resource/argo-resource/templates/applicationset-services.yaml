@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: services
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: {{ .Values.repo }}
+        revision: main
+        directories:
+          - path: charts/services/*
+        allowEmpty: false
+  template:
+    metadata:
+      name: "{{ `{{path.basename}}` }}"
+    spec:
+      project: {{ .Values.appProjectName.app }}
+      source:
+        repoURL: {{ .Values.repo }}
+        targetRevision: main
+        path: "{{ `{{path}}` }}"
+      destination:
+        server: {{ .Values.curCluster }}
+        namespace: default 
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: {{ .Values.syncRetry.limit }}
+          backoff:
+            duration: {{ .Values.syncRetry.backoffDuration }}
+            factor: {{ .Values.syncRetry.backoffFactor }}
+            maxDuration: {{ .Values.syncRetry.backoffMaxDuration }}

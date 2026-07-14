@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.appProjectName.db }}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  description: GoMSA Project About Deployment of db charts
+  sourceRepos:
+    - {{ .Values.repo }}
+  destinations:
+    - server: {{ .Values.curCluster }}
+      namespace: default-db
+  
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.appProjectName.app }}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  description: GoMSA Project About Deployment of app charts
+  sourceRepos:
+    - {{ .Values.repo }}
+  destinations:
+    - server: {{ .Values.curCluster }}
+      namespace: default
+  namespaceResourceBlacklist:
+    - group: rbac.authorization.k8s.io
+      kind: Role
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding

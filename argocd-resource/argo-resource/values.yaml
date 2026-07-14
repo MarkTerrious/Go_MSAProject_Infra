@@ -1,0 +1,13 @@
+appProjectName:
+  infra: "argo-infra-project"
+  db: "argo-database-project"
+  app: "argo-application-project"
+
+repo: "https://github.com/MarkTerrious/Go_MSAProject_Infra"
+curCluster: "https://kubernetes.default.svc"
+
+syncRetry:
+  limit: 5
+  backoffDuration: 5s
+  backoffFactor: 2
+  backoffMaxDuration: 3m

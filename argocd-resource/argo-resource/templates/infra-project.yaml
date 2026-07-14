@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.appProjectName.infra }}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  description: GoMSA Project About deployment of infra charts
+  sourceRepos:
+    - {{ .Values.repo }}
+  destinations:
+    - server: {{ .Values.curCluster }}
+      namespace: istio-system
+    - server: {{ .Values.curCluster }}
+      namespace: istio-ingress
+    - server: {{ .Values.curCluster }}
+      namespace: default
+
+  # apiVersion: <Group>/<Version>
+  # kind: <Resource Type>
+  # 모든 그룹의 모든 리소스 타입들을 허용한다. 
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"

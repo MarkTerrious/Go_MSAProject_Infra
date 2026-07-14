@@ -1,0 +1,9 @@
+my-argo-cd:
+  server:
+    replicas: 2
+  repoServer:
+    replicas: 2
+  applicationSet:
+    replicaCount: 2
+  redis-ha:
+    enabled: true 

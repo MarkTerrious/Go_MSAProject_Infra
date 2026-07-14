@@ -1,0 +1,39 @@
+# charts/db/ 밑의 폴더(auth-db, post-db, ...)를 자동 스캔.
+# DB는 auth/post와 다른 네임스페이스(default-db)에 떠 있어서 destination만 다름.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: db
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: {{ .Values.repo }}
+        revision: main
+        directories:
+          - path: charts/db/*
+        allowEmpty: false
+  template:
+    metadata:
+      name: "{{ `{{path.basename}}` }}"
+    spec:
+      project: {{ .Values.appProjectName.db }}
+      source:
+        repoURL: {{ .Values.repo }}
+        targetRevision: main
+        path: "{{ `{{path}}` }}"
+      destination:
+        server: {{ .Values.curCluster }}
+        namespace: default-db
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: {{ .Values.syncRetry.limit }}
+          backoff:
+            duration: {{ .Values.syncRetry.backoffDuration }}
+            factor: {{ .Values.syncRetry.backoffFactor }}
+            maxDuration: {{ .Values.syncRetry.backoffMaxDuration }}

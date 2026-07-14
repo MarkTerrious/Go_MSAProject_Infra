@@ -1,0 +1,21 @@
+# App-of-Apps 진입점. ApplicationSet이 아니라 여기만 최초 1회 수동으로 적용한다.
+#   kubectl apply -f argocd-resource/root-app.yaml
+# 그 이후로는 이 Application 자체가 GitOps로 자기 자신(argo-resource 차트)을 관리한다.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MarkTerrious/Go_MSAProject_Infra
+    targetRevision: main
+    path: argocd-resource/argo-resource
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

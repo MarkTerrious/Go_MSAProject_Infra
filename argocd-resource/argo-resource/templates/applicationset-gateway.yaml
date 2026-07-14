@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: gateway
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: istio
+            namespace: istio-system
+          - name: istio-ambient
+            namespace: istio-system
+          - name: istio-rsc
+            namespace: istio-ingress
+  template:
+    metadata:
+      name: "{{ `{{name}}` }}"
+    spec:
+      project: {{ .Values.appProjectName.infra }}
+      source:
+        repoURL: {{ .Values.repo }}
+        targetRevision: main
+        path: "charts/gateway/{{ `{{name}}` }}"
+      destination:
+        server: {{ .Values.curCluster }}
+        namespace: "{{ `{{namespace}}` }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: {{ .Values.syncRetry.limit }}
+          backoff:
+            duration: {{ .Values.syncRetry.backoffDuration }}
+            factor: {{ .Values.syncRetry.backoffFactor }}
+            maxDuration: {{ .Values.syncRetry.backoffMaxDuration }}
