@@ -4,7 +4,8 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "6f5def49894a9a75b5355ee2e24af9d420032035"
-imagePullSecrets: []
+imagePullSecrets:
+  - name: ghcr-creds
 nameOverride: "auth"
 fullnameOverride: ""
 serviceAccount:

@@ -1,4 +1,6 @@
-.secrets/
+secrets/**
 *.pem
 *.key
 trash/
+*secret*.yaml
+*repo-creds*.yaml
