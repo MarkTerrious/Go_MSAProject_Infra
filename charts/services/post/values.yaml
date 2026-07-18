@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/markterrious/post
   pullPolicy: IfNotPresent
-  tag: "74e8bc16f4b5cb072fc0aee88fdacee002c192a7"
+  tag: "47cb14f95cce217fba3496f2ffd57cbb3b18ab25"
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets:
   - name: ghcr-creds
@@ -21,17 +21,15 @@ podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
-podSecurityContext: 
+podSecurityContext:
   fsGroup: 2000
-
-securityContext: 
+securityContext:
   capabilities:
     drop:
-    - ALL
+      - ALL
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 1005
-
 service:
   type: ClusterIP
   port: 8000
@@ -85,27 +83,24 @@ resources: {}
 #   memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe: 
+livenessProbe:
   httpGet:
     path: /health
     port: 8000
   periodSeconds: 10
   failureThreshold: 3
-
 startupProbe:
   httpGet:
     path: /health
     port: 8000
   periodSeconds: 10
   failureThreshold: 180
-
-readinessProbe: 
+readinessProbe:
   httpGet:
     path: /health/ready
     port: 8000
   periodSeconds: 15
   failureThreshold: 3
-
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: false
@@ -118,11 +113,9 @@ volumes:
   - name: post-picture
     emptyDir: {}
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: 
+volumeMounts:
   - name: post-picture
     mountPath: "/app/uploads"
-    
-
 nodeSelector: {}
 tolerations: []
 affinity: {}
