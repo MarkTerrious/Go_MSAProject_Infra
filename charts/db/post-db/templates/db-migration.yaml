@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: post-db-migration
+  name: post-db-migration-job
   annotations:
     argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/hook: Sync
@@ -10,8 +10,8 @@ spec:
   template:
     spec:
       containers:
-        - name: goose
-          image: ghcr.io/markterrious/goose
+        - name: goose-post
+          image: ghcr.io/markterrious/goose-post:latest
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           args: 
