@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-jwt
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: create-pem 
+          image: ghcr.io/markterrious/openssl:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
+          args: 
+            - |
+              openssl genrsa -out /keys/private.pem 2048
+              openssl rsa -in /keys/private.pem -pubout -out /keys/public.pem
+          volumeMounts:
+            - name: jwt-keys
+              mountPath: /keys
+      containers:
+        - name: create-secret
+          image: bitnami/kubectl:1.36
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]                    
+          args:
+            - |
+              if kubectl get secret jwt-keys >/dev/null 2>&1; then 
+                echo "jwt-keys secret 이 이미 존재합니다"
+                exit 0
+              fi 
+
+              kubectl create secret generic jwt-keys \
+                --from-file=/keys/private.pem \
+                --from-file=/keys/public.pem
+          volumeMounts:
+            - name: jwt-keys
+              mountPath: /keys
+
+      volumes:
+        - name: jwt-keys
+          emptyDir: {}
+      restartPolicy: OnFailure
+      serviceAccountName: jwt-service-account
+  backoffLimit: 10    

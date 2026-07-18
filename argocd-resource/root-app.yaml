@@ -6,12 +6,17 @@ kind: Application
 metadata:
   name: root-app
   namespace: argocd
+  # application resource 삭제 시, 해당 application에 속하는 모든 리소스 삭제
+  # finalizers:
+    # - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: https://github.com/MarkTerrious/Go_MSAProject_Infra
     targetRevision: main
     path: argocd-resource/argo-resource
+    directory:
+      recurse: true   # path 폴더의 하위 폴더 포함
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

@@ -20,16 +20,16 @@ podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
-podSecurityContext: {}
-# fsGroup: 2000
+podSecurityContext: 
+  fsGroup: 2000
 
-securityContext: {}
-# capabilities:
-#   drop:
-#   - ALL
-# readOnlyRootFilesystem: true
-# runAsNonRoot: true
-# runAsUser: 1000
+securityContext: 
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1005
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
@@ -85,14 +85,26 @@ resources: {}
 #   memory: 128Mi
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe: {}
-# httpGet:
-#   path: /
-#   port: http
-readinessProbe: {}
-# httpGet:
-# path: /
-# port: http
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  periodSeconds: 10
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  periodSeconds: 10
+  failureThreshold: 180
+
+readinessProbe: 
+  httpGet:
+    path: /health/ready
+    port: 8000
+  periodSeconds: 15
+  failureThreshold: 3
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:

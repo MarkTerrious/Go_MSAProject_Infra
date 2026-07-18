@@ -1,5 +1,6 @@
 apollo-router:
-
+  deploymentAnnotations:
+    argocd.argoproj.io/sync-wave: "1"
   replicaCount: 1
 
   fullnameOverride: "router"
@@ -56,7 +57,7 @@ apollo-router:
 
   initContainers:
     - name: compose-supergraph
-      image: rover:latest
+      image: ghcr.io/markterrious/rover:latest
       imagePullPolicy: Never
       command: ["/bin/sh", "-c"]
       args:
@@ -94,7 +95,7 @@ apollo-router:
       emptyDir: {}
     - name: rhai-scripts
       configMap:
-        name: rhai-cfg
+        name: router-rhai-cfg
 
   containerPorts:
     http: 4000
