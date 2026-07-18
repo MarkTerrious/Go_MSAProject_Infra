@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/markterrious/post
   pullPolicy: IfNotPresent
-  tag: "6f5def49894a9a75b5355ee2e24af9d420032035"
+  tag: "74e8bc16f4b5cb072fc0aee88fdacee002c192a7"
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets:
   - name: ghcr-creds
@@ -57,21 +57,21 @@ httpRoute:
             path:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
-  #   filters:
-  #   - type: RequestHeaderModifier
-  #     requestHeaderModifier:
-  #       set:
-  #       - name: My-Overwrite-Header
-  #         value: this-is-the-only-value
-  #       remove:
-  #       - User-Agent
-  # - matches:
-  #   - path:
-  #       type: PathPrefix
-  #       value: /echo
-  #     headers:
-  #     - name: version
-  #       value: v2
+              #   filters:
+              #   - type: RequestHeaderModifier
+              #     requestHeaderModifier:
+              #       set:
+              #       - name: My-Overwrite-Header
+              #         value: this-is-the-only-value
+              #       remove:
+              #       - User-Agent
+              # - matches:
+              #   - path:
+              #       type: PathPrefix
+              #       value: /echo
+              #     headers:
+              #     - name: version
+              #       value: v2
 resources: {}
 # We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little
