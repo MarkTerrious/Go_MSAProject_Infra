@@ -63,22 +63,13 @@ apollo-router:
       args:
         - |
           set -e 
-          cat > /tmp/supergraph.yaml << 'SGEOF'
-          federation_version: =2.9.3
-          subgraphs:
-            auth:
-              routing_url: http://auth-svc.default.svc.cluster.local:8000/graphql
-              schema:
-                subgraph_url: http://auth-svc.default.svc.cluster.local:8000/graphql
-            post:
-              routing_url: http://post-svc.default.svc.cluster.local:8000/graphql
-              schema:
-                subgraph_url: http://post-svc.default.svc.cluster.local:8000/graphql
-          SGEOF
-          rover supergraph compose --config /tmp/supergraph.yaml --output /schema/supergraph.graphql --elv2-license accept
+          rover supergraph compose --config /scripts/rover/supergraph.yaml --output /schema/supergraph.graphql --elv2-license accept
+          cp /scripts/rover/router.rhai /rhai/router.rhai
       volumeMounts:
         - name: supergraph-schema
           mountPath: /schema
+        - name: rhai-scripts
+          mountPath: /rhai
 
   extraEnvVars:
     - name: APOLLO_ROUTER_SUPERGRAPH_PATH
@@ -94,8 +85,7 @@ apollo-router:
     - name: supergraph-schema
       emptyDir: {}
     - name: rhai-scripts
-      configMap:
-        name: router-rhai-cfg
+      emptyDir: {}
 
   containerPorts:
     http: 4000
