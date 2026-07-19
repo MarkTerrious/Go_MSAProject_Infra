@@ -3,7 +3,7 @@ image:
   repository: ghcr.io/markterrious/auth
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "47cb14f95cce217fba3496f2ffd57cbb3b18ab25"
+  tag: "8124950529c2d3c0371fdfcdd6546f82c4c09485"
 imagePullSecrets:
   - name: ghcr-creds
 nameOverride: "auth"
