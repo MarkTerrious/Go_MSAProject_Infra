@@ -15,8 +15,7 @@ spec:
     repoURL: https://github.com/MarkTerrious/Go_MSAProject_Infra
     targetRevision: main
     path: argocd-resource/argo-resource
-    directory:
-      recurse: true   # path 폴더의 하위 폴더 포함
+    helm: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
