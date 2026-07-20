@@ -1,2 +1,5 @@
 sa:
   name: auth-jwt-sa
+
+role: 
+  name: auth-jwt-role

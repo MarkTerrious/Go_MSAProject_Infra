@@ -6,9 +6,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 subjects:
   - kind: ServiceAccount
-    name: auth-jwt-sa
+    name: {{ .Values.sa.name }}
     namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: jwt-role
+  name: {{ .Values.role.name }}
