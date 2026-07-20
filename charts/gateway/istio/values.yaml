@@ -7,4 +7,4 @@ gateway:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 
-ambient:
+ambient: {}
