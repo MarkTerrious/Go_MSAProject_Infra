@@ -5,23 +5,20 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - list:
-        elements:
-          - name: istio
-            namespace: istio-system
-          - name: istio-ambient
-            namespace: istio-system
-          - name: istio-rsc
-            namespace: istio-ingress
+    - git:
+        repoURL: {{ .Values.repo }}
+        revision: main
+        files:
+          - path: "charts/gateway/*/values.yaml"
   template:
     metadata:
-      name: "{{ `{{name}}` }}"
+      name: "{{ `{{path.basename}}` }}"
     spec:
       project: {{ .Values.appProjectName.infra }}
       source:
         repoURL: {{ .Values.repo }}
         targetRevision: main
-        path: "charts/gateway/{{ `{{name}}` }}"
+        path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
         namespace: "{{ `{{namespace}}` }}"
