@@ -31,13 +31,6 @@ spec:
 
               goose -dir /migrations postgres \
               "host=post-db user=postgresql password=password dbname=gomsa sslmode=disable" up
-          volumeMounts:
-            - name: sql-files
-              mountPath: /migrations
-      volumes:
-        - name: sql-files
-          configMap:
-            name: post-db-init-sql
       restartPolicy: OnFailure
   backoffLimit: 5  
 
