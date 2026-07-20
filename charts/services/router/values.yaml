@@ -60,7 +60,7 @@ apollo-router:
   initContainers:
     - name: compose-supergraph
       image: ghcr.io/markterrious/rover:latest
-      imagePullPolicy: Never
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh", "-c"]
       args:
         - |
