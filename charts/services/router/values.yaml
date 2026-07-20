@@ -64,9 +64,9 @@ apollo-router:
       command: ["/bin/sh", "-c"]
       args:
         - |
-          set -e 
-          rover supergraph compose --config /scripts/rover/supergraph.yaml --output /schema/supergraph.graphql --elv2-license accept
-          cp /scripts/rover/router.rhai /rhai/router.rhai
+          set -e
+          rover supergraph compose --config /scripts/supergraph.yaml --output /schema/supergraph.graphql --elv2-license accept
+          cp /scripts/router.rhai /rhai/router.rhai
       volumeMounts:
         - name: supergraph-schema
           mountPath: /schema
