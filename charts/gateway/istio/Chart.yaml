@@ -8,3 +8,6 @@ dependencies:
   - name: gateway
     version: 1.29.2
     repository: https://istio-release.storage.googleapis.com/charts
+  - name: ambient
+    version: 1.29.2
+    repository: https://istio-release.storage.googleapis.com/charts
