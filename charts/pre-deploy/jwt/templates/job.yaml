@@ -27,7 +27,7 @@ spec:
               mountPath: /keys
       containers:
         - name: create-secret
-          image: bitnami/kubectl:1.36
+          image: bitnami/kubectl:sha256-393c457f5c410507a7718d7468d19fe53b4189ab06798df759605fb4aa22e474
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]                    
           args:
