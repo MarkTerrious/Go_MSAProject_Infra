@@ -18,7 +18,7 @@ spec:
     metadata:
       name: "{{ `{{path.basename}}` }}"
     spec:
-      project: {{ .Values.appProjectName.app }}
+      project: {{ .Values.appProjectName.infra }}
       source:
         repoURL: {{ .Values.repo }}
         targetRevision: main
