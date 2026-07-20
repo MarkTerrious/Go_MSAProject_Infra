@@ -4,6 +4,8 @@ apollo-router:
   replicaCount: 1
 
   fullnameOverride: "router"
+  imagePullSecrets: 
+    - name: ghcr-creds
 
   # -- See https://www.apollographql.com/docs/graphos/reference/router/configuration#yaml-config-file for yaml structure
   router:

@@ -1,3 +1,6 @@
+imagePullSecrets:
+  - name: ghcr-creds
+
 sa:
   name: auth-jwt-sa
 
