@@ -42,5 +42,5 @@ spec:
         - name: jwt-keys
           emptyDir: {}
       restartPolicy: OnFailure
-      serviceAccountName: jwt-service-account
+      serviceAccountName: {{ .Values.sa.name }}
   backoffLimit: 10    
