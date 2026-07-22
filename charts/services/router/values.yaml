@@ -103,7 +103,7 @@ httpRoute:
   parentRefs:
   - name: external-gateway
     sectionName: http
-    namespace: istio-ingress
+    namespace: board-ingress
   hostnames:
   - ticketing.test
   rules:
