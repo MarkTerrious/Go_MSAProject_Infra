@@ -1,6 +1,6 @@
 apollo-router:
   deploymentAnnotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-1"
   replicaCount: 1
 
   fullnameOverride: "router"

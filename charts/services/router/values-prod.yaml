@@ -1,3 +1,6 @@
+apollo-router:
+  fullnameOverride: "router-prod"
+
 httpRoute:
   parentRefs:
-    namespace: board-ingress
+    namespace: board-ingress-prod
