@@ -13,3 +13,6 @@ spec:
   destinations:
     - server: {{ .Values.curCluster }}
       namespace: {{ .Values.namespace }}
+  clusterResourceWhitelist:
+  - group: "*"
+    kind: "*"
