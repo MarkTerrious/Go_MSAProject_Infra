@@ -1,0 +1,7 @@
+namespace: "istio-system"
+
+repo: "https://github.com/MarkTerrious/Go_MSAProject_Infra"
+curCluster: "https://kubernetes.default.svc"
+
+appProjectName:
+  infra: "argo-infra-project"

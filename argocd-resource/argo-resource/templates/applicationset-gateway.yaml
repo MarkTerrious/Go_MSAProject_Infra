@@ -2,14 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: gateway
-  namespace: argocd
 spec:
   generators:
     - git:
         repoURL: {{ .Values.repo }}
         revision: main
-        files:
-          - path: "charts/gateway/*/values.yaml"
+        directories:
+          - path: "charts/gateway/*"
   template:
     metadata:
       name: "{{ `{{path.basename}}` }}"
@@ -21,7 +20,7 @@ spec:
         path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
-        namespace: "{{ `{{namespace}}` }}"
+        namespace: {{ printf "%s-%s" .Values.namespace.gateway .Values.deploy_env | trimSuffix "-" }}
       syncPolicy:
         automated:
           prune: true

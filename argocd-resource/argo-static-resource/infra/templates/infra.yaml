@@ -1,27 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: services
+  name: gateway
+  namespace: argocd
 spec:
   generators:
     - git:
         repoURL: {{ .Values.repo }}
         revision: main
-        directories:
-          - path: charts/services/*
-        allowEmpty: false
+        files:
+          - path: "charts/infra/*/values.yaml"
   template:
     metadata:
       name: "{{ `{{path.basename}}` }}"
     spec:
-      project: {{ .Values.appProjectName.app }}
+      project: {{ .Values.appProjectName.infra }}
       source:
         repoURL: {{ .Values.repo }}
         targetRevision: main
         path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
-        namespace: {{ printf "%s-%s" .Values.namespace.app .Values.deploy_env | trimSuffix "-"}}
+        namespace: "{{ `{{namespace}}` }}"
       syncPolicy:
         automated:
           prune: true

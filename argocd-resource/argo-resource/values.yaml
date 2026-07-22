@@ -1,3 +1,11 @@
+deploy_env: ""
+
+namespace:
+  app: "board-app"
+  db: "board-db"
+  gateway: "board-ingress"
+  istio: "istio-ingress"
+
 appProjectName:
   infra: "argo-infra-project"
   db: "argo-database-project"
@@ -11,3 +19,6 @@ syncRetry:
   backoffDuration: 5s
   backoffFactor: 2
   backoffMaxDuration: 3m
+
+
+

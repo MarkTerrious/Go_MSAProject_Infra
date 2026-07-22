@@ -6,3 +6,7 @@ sa:
 
 role: 
   name: auth-jwt-role
+
+image:
+  initContainer: ghcr.io/markterrious/openssl:latest
+  container: alpine/kubectl:1.36.2

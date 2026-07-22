@@ -3,7 +3,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: pre-deploy
-  namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -25,7 +24,7 @@ spec:
         path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
-        namespace: default
+        namespace: {{ printf "%s-%s" .Values.namespace.app .Values.deploy_env | trimSuffix "-"}}
       syncPolicy:
         automated:
           prune: true

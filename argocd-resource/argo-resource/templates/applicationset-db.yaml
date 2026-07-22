@@ -4,7 +4,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: db
-  namespace: argocd
 spec:
   generators:
     - git:
@@ -24,7 +23,7 @@ spec:
         path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
-        namespace: default-db
+        namespace: {{ printf "%s-%s" .Values.namespace.db .Values.deploy_env | trimSuffix "-"}}
       syncPolicy:
         automated:
           prune: true

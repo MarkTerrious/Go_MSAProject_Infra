@@ -51,7 +51,8 @@ stringData:
 ```mermaid
 flowchart LR
   infraRepo([Infra Repository]) ==> |kubernates| argoCD
-  argoCD[argo]
+  argoCD[argo] ==> |Git Registry| GHCR
+  GHCR([ghcr])
 ```
 
 ## ArgoCD Pulling Process

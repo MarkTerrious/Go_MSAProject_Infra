@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.appProjectName.infra }}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  description: GoMSA Project About deployment of infra charts
+  sourceRepos:
+    - {{ .Values.repo }}
+  destinations:
+    - server: {{ .Values.curCluster }}
+      namespace: {{ .Values.namespace }}

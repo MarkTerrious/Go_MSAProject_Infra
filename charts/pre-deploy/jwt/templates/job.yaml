@@ -15,7 +15,7 @@ spec:
       {{- end }}
       initContainers:
         - name: create-pem 
-          image: ghcr.io/markterrious/openssl:latest
+          image: {{ .Values.image.initContainer }}
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
           args: 
@@ -27,7 +27,7 @@ spec:
               mountPath: /keys
       containers:
         - name: create-secret
-          image: alpine/kubectl:1.36.2
+          image: {{ .Values.image.container }}
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]                    
           args:
