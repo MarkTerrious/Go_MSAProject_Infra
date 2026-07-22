@@ -11,4 +11,7 @@ auth-db:
     service:
       ports:
         postgresql: 5432
+imagePullSecrets:
+  - name: ghcr-creds
+
     
