@@ -5,3 +5,9 @@ curCluster: "https://kubernetes.default.svc"
 
 appProjectName:
   infra: "argo-infra-project"
+
+syncRetry:
+  limit: 5
+  backoffDuration: 5s
+  backoffFactor: 2
+  backoffMaxDuration: 3m
