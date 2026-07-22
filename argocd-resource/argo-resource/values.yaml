@@ -1,7 +1,7 @@
 deploy_env: ""
 
 namespace:
-  app: "board-app"
+  service: "board-service"
   db: "board-db"
   gateway: "board-ingress"
   istio: "istio-ingress"

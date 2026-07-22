@@ -14,15 +14,15 @@ spec:
   source:
     repoURL: https://github.com/MarkTerrious/Go_MSAProject_Infra
     targetRevision: main
-    path: argocd-resource/argo-resource
+    path: argocd-resource/argo-static-resource
     helm: 
       valueFiles:
         - values.yaml
       releaseName: board-app
-      releaseNamespace: argocd
+      releaseNamespace: argocd-istio
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: argocd-istio
   syncPolicy:
     automated:
       prune: true

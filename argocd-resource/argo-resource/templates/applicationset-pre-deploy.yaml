@@ -24,7 +24,7 @@ spec:
         path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
-        namespace: {{ printf "%s-%s" .Values.namespace.app .Values.deploy_env | trimSuffix "-"}}
+        namespace: {{ printf "%s-%s" .Values.namespace.service .Values.deploy_env | trimSuffix "-"}}
       syncPolicy:
         automated:
           prune: true

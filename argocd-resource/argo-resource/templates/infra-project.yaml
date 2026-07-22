@@ -12,7 +12,7 @@ spec:
     - server: {{ .Values.curCluster }}
       namespace: istio-ingress
     - server: {{ .Values.curCluster }}
-      namespace: {{ printf "%s-%s" .Values.namespace.app .Values.deploy_env | trimSuffix "-" }}
+      namespace: {{ printf "%s-%s" .Values.namespace.service .Values.deploy_env | trimSuffix "-" }}
 
   # apiVersion: <Group>/<Version>
   # kind: <Resource Type>

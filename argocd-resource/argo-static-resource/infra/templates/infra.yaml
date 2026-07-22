@@ -1,15 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: gateway
-  namespace: argocd
+  name: istio
 spec:
   generators:
     - git:
         repoURL: {{ .Values.repo }}
         revision: main
         files:
-          - path: "charts/infra/*/values.yaml"
+          - path: "charts/static/*/values.yaml"
   template:
     metadata:
       name: "{{ `{{path.basename}}` }}"

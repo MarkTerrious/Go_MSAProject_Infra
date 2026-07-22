@@ -19,7 +19,7 @@ spec:
       valueFiles:
         - values.yaml
         - values-prod.yaml
-      releaseName: my-app-prod
+      releaseName: board-app-prod
       releaseNamespace: argocd-prod
   destination:
     server: https://kubernetes.default.svc

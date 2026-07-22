@@ -17,7 +17,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: {{ .Values.appProjectName.app }}
-  namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -26,7 +25,7 @@ spec:
     - {{ .Values.repo }}
   destinations:
     - server: {{ .Values.curCluster }}
-      namespace: {{ printf "%s-%s" .Values.namespace.app .Values.deploy_env | trimSuffix "-"}}
+      namespace: {{ printf "%s-%s" .Values.namespace.service .Values.deploy_env | trimSuffix "-"}}
   namespaceResourceBlacklist:
     - group: rbac.authorization.k8s.io
       kind: Role
