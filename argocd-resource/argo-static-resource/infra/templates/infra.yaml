@@ -20,7 +20,7 @@ spec:
         path: "{{ `{{path}}` }}"
       destination:
         server: {{ .Values.curCluster }}
-        namespace: "{{ `{{namespace}}` }}"
+        namespace: istio-system
       syncPolicy:
         automated:
           prune: true

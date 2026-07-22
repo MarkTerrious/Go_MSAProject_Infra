@@ -4,7 +4,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: root-app-static
   namespace: argocd
   # application resource 삭제 시, 해당 application에 속하는 모든 리소스 삭제
   # finalizers:
@@ -19,10 +19,9 @@ spec:
       valueFiles:
         - values.yaml
       releaseName: board-app
-      releaseNamespace: argocd-istio
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd-istio
+    namespace: argocd-istio-system
   syncPolicy:
     automated:
       prune: true

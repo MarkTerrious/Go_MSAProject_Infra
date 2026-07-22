@@ -19,7 +19,6 @@ spec:
       valueFiles:
         - values.yaml
       releaseName: board-app
-      releaseNamespace: argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
