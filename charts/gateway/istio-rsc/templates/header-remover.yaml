@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: header-remover
-  namespace: {{ .Values.gateway.namespace }}
 spec:
   workloadSelector:
     labels:

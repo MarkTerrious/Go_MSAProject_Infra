@@ -2,7 +2,6 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-jwt-writes
-  namespace: istio-ingress
 spec:
   targetRef:
     group: gateway.networking.k8s.io

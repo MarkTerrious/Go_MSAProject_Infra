@@ -4,7 +4,6 @@ namespace:
   service: "board-service"
   db: "board-db"
   gateway: "board-ingress"
-  istio: "istio-ingress"
 
 appProjectName:
   infra: "argo-infra-project"

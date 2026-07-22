@@ -1,9 +1,2 @@
-namespace: istio-ingress
-
-waypoint:
-  name: waypoint
-  namespace: default
-
 gateway:
   name: external-gateway
-  namespace: istio-ingress
