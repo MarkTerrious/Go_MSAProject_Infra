@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: istio
+  labels:
+    env: static
 spec:
   generators:
     - git:

@@ -33,7 +33,25 @@ Create chart name and version as used by the chart label.
 {{/*
 Common labels
 */}}
+
+{{- define "argo-prod-labels" -}}
+env: "prod"
+{{- end }}
+
+{{- define "argo-local-labels" -}}
+env: "local"
+{{- end }}
+
+
 {{- define "argo-resource.labels" -}}
+{{- if eq .Values.deploy_env ""}}
+{{ include "argo-local-labels" . }}
+{{- end }}
+
+{{- if eq .Values.deploy_env "prod"}}
+{{ include "argo-prod-labels" . }}
+{{- end }}
+
 helm.sh/chart: {{ include "argo-resource.chart" . }}
 {{ include "argo-resource.selectorLabels" . }}
 {{- if .Chart.AppVersion }}

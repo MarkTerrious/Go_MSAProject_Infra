@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: gateway
+  labels:
+    {{- include "argo-resource.labels" . | nindent 4 }}
 spec:
   generators:
     - git:

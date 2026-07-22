@@ -6,6 +6,8 @@ kind: Application
 metadata:
   name: root-app-prod
   namespace: argocd-prod
+  labels: 
+    env: "board-prod"
   # application resource 삭제 시, 해당 application에 속하는 모든 리소스 삭제
   # finalizers:
     # - resources-finalizer.argocd.argoproj.io
@@ -22,7 +24,7 @@ spec:
       releaseName: board-app-prod
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd-prod
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true

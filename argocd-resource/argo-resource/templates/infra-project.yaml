@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: {{ .Values.appProjectName.infra }}
+  labels:
+    {{- include "argo-resource.labels" . | nindent 4}}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
