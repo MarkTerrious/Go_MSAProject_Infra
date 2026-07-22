@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: pre-deploy
+  name: {{ printf "pre-deploy-%s" .Values.deploy_env | trimSuffix "-" }}
   labels:
     {{- include "argo-resource.labels" . | nindent 4 }}
   annotations:
@@ -17,9 +17,9 @@ spec:
         allowEmpty: false
   template:
     metadata:
-      name: "{{ `{{path.basename}}` }}"
+      name: "{{ `{{path.basename}}` }}{{ if .Values.deploy_env }}-{{ .Values.deploy_env }}{{ end }}"
     spec:
-      project: {{ .Values.appProjectName.infra }}
+      project: {{ printf "%s-%s" .Values.appProjectName.infra .Values.deploy_env | trimSuffix "-" }}
       source:
         repoURL: {{ .Values.repo }}
         targetRevision: main

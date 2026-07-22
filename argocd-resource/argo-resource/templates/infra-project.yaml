@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: {{ .Values.appProjectName.infra }}
+  name: {{ printf "%s-%s" .Values.appProjectName.infra .Values.deploy_env | trimSuffix "-" }}
   labels:
-    {{- include "argo-resource.labels" . | nindent 4}}
+    {{- include "argo-resource.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:

@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: db
+  name: {{ printf "db-%s" .Values.deploy_env | trimSuffix "-" }}
   labels:
     {{- include "argo-resource.labels" . | nindent 4 }}
 spec:
@@ -16,9 +16,9 @@ spec:
         allowEmpty: false
   template:
     metadata:
-      name: "{{ `{{path.basename}}` }}"
+      name: "{{ `{{path.basename}}` }}{{ if .Values.deploy_env }}-{{ .Values.deploy_env }}{{ end }}"
     spec:
-      project: {{ .Values.appProjectName.db }}
+      project: {{ printf "%s-%s" .Values.appProjectName.db .Values.deploy_env | trimSuffix "-" }}
       source:
         repoURL: {{ .Values.repo }}
         targetRevision: main

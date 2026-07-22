@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: {{ .Values.appProjectName.db }}
+  name: {{ printf "%s-%s" .Values.appProjectName.db .Values.deploy_env | trimSuffix "-" }}
   labels:
     {{- include "argo-resource.labels" . | nindent 4 }}
   annotations:
@@ -18,7 +18,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: {{ .Values.appProjectName.app }}
+  name: {{ printf "%s-%s" .Values.appProjectName.app .Values.deploy_env | trimSuffix "-" }}
   labels:
     {{- include "argo-resource.labels" . | nindent 4 }}
   annotations:
