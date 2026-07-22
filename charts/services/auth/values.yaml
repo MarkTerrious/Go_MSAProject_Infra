@@ -128,7 +128,7 @@ env:
       fieldRef:
         fieldPath: metadata.name
   - name: DB_HOST
-    value: auth-db.default-db.svc.cluster.local
+    value: auth-db.board-db.svc.cluster.local
   - name: DB_PORT
     value: "5432"
   - name: PLAYGROUND

@@ -119,3 +119,14 @@ volumeMounts:
 nodeSelector: {}
 tolerations: []
 affinity: {}
+env:
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: DB_HOST
+    value: post-db.board-db.svc.cluster.local
+  - name: DB_PORT
+    value: "5432"
+  - name: PLAYGROUND
+    value: "/api/v1/post/graphql"
