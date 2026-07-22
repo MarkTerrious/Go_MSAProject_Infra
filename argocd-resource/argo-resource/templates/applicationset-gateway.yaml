@@ -18,6 +18,12 @@ spec:
         repoURL: {{ .Values.repo }}
         targetRevision: main
         path: "{{ `{{path}}` }}"
+        helm:
+          valueFiles:
+            - values.yaml
+            {{- if .Values.deploy_env == "prod"}}
+            - values-prod.yaml
+            {{- end}}
       destination:
         server: {{ .Values.curCluster }}
         namespace: {{ printf "%s-%s" .Values.namespace.gateway .Values.deploy_env | trimSuffix "-" }}

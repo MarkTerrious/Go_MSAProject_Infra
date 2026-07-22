@@ -1,3 +1,2 @@
 image:
   initContainer: ghcr.io/markterrious/openssl-prod:latest
-  container: alpine/kubectl:1.36.2

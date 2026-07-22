@@ -1,3 +1,1 @@
-waypoint:
-  name: waypoint
-  namespace: default
+svc: board-service-prod

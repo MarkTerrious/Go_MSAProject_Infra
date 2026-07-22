@@ -1,2 +1,4 @@
 gateway:
   name: external-gateway
+
+svc: board-service
