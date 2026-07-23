@@ -1,6 +1,7 @@
 post-db:
   auth:
     enablePostgresUser: true
+    # 로컬 kind 클러스터 전용 더미 값입니다. 운영 환경에서는 별도 Secret/values-prod.yaml로 관리합니다.
     postgresPassword: "superpassword"
     username: "postgresql"
     password: "password"
