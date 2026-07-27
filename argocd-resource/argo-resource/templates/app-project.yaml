@@ -13,7 +13,9 @@ spec:
   destinations:
     - server: {{ .Values.curCluster }}
       namespace: {{ printf "%s-%s" .Values.namespace.db .Values.deploy_env | trimSuffix "-"}}
-  
+  clusterResourceWhiteList:
+    - group: ""
+      kind: Namespace
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
@@ -35,3 +37,6 @@ spec:
       kind: Role
     - group: rbac.authorization.k8s.io
       kind: RoleBinding
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
