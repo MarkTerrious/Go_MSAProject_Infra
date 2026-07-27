@@ -13,7 +13,7 @@ spec:
   destinations:
     - server: {{ .Values.curCluster }}
       namespace: {{ printf "%s-%s" .Values.namespace.db .Values.deploy_env | trimSuffix "-"}}
-  clusterResourceWhiteList:
+  clusterResourceWhitelist:
     - group: ""
       kind: Namespace
 ---
