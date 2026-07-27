@@ -9,6 +9,7 @@ metadata:
 spec:
   template:
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.migration }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8}}

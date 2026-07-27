@@ -1,0 +1,16 @@
+# auth-sa(auth 서비스)만 auth-db에 접근 가능하도록 제한
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: auth-db-access
+spec:
+  targetRef:
+    kind: Service
+    name: auth-db
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - "cluster.local/ns/board-service/sa/auth-sa"
+              - "cluster.local/ns/board-db/sa/{{ .Values.serviceAccount.migration }}"

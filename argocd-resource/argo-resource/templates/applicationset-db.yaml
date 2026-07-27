@@ -27,6 +27,9 @@ spec:
         server: {{ .Values.curCluster }}
         namespace: {{ printf "%s-%s" .Values.namespace.db .Values.deploy_env | trimSuffix "-"}}
       syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            {{- toYaml .Values.ambientLabels | nindent 12 }}
         automated:
           prune: true
           selfHeal: true

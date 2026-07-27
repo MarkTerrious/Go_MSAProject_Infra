@@ -14,5 +14,6 @@ auth-db:
         postgresql: 5432
 imagePullSecrets:
   - name: ghcr-creds
-
+serviceAccount:
+  migration: auth-db-migration
     

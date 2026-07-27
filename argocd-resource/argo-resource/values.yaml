@@ -5,6 +5,10 @@ namespace:
   db: "board-db"
   gateway: "board-ingress"
 
+# ambient mesh(mTLS/identity)에 편입시킬 네임스페이스에 붙일 라벨
+ambientLabels:
+  istio.io/dataplane-mode: ambient
+
 appProjectName:
   infra: "argo-infra-project"
   db: "argo-database-project"

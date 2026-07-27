@@ -1,0 +1,16 @@
+# post-sa(post 서비스)만 post-db에 접근 가능하도록 제한
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: post-db-access
+spec:
+  targetRef:
+    kind: Service
+    name: post-db
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - "cluster.local/ns/board-service/sa/post-sa"
+              - "cluster.local/ns/board-db/sa/{{ .Values.serviceAccount.migration }}"
