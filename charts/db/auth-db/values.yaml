@@ -21,6 +21,13 @@ auth-db:
       enabled: true
     readinessProbe:
       enabled: true
+    networkPolicy:
+      # ambient mesh의 ztunnel-ztunnel HBONE 터널 포트. 이게 막히면 mTLS 터널 자체가 안 맺어짐.
+      # 접근 주체 제한은 AuthorizationPolicy(principals)가 담당하므로 여기선 포트만 열어준다.
+      extraIngress:
+        - ports:
+            - port: 15008
+              protocol: TCP
 imagePullSecrets:
   - name: ghcr-creds
 serviceAccount:
