@@ -12,6 +12,15 @@ auth-db:
     service:
       ports:
         postgresql: 5432
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      failureThreshold: 30
+    livenessProbe:
+      enabled: true
+    readinessProbe:
+      enabled: true
 imagePullSecrets:
   - name: ghcr-creds
 serviceAccount:
