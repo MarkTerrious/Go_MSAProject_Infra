@@ -7,6 +7,9 @@ metadata:
   labels:
     {{- include "argo-resource.labels" . | nindent 4 }}
 spec:
+  # finalizers 비활성화 
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   generators:
     - git:
         repoURL: {{ .Values.repo }}
