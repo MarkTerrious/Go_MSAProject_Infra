@@ -39,7 +39,7 @@ httpRoute:
   parentRefs:
     - name: external-gateway
       sectionName: http
-      namespace: istio-ingress
+      namespace: board-ingress
   # Hostnames matching HTTP header.
   hostnames:
     - ticketing.test
