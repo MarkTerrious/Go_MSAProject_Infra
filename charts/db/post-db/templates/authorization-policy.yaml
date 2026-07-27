@@ -4,9 +4,10 @@ kind: AuthorizationPolicy
 metadata:
   name: post-db-access
 spec:
-  targetRef:
-    kind: Service
-    name: post-db
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: post-db
+      app.kubernetes.io/component: primary
   action: ALLOW
   rules:
     - from:
@@ -14,3 +15,4 @@ spec:
             principals:
               - "cluster.local/ns/board-service/sa/post-sa"
               - "cluster.local/ns/board-db/sa/{{ .Values.serviceAccount.migration }}"
+              # read replica 추가 시 replica -> primary replication 연결도 이 principals를 통과해야 하니 replica SA 추가 필요
