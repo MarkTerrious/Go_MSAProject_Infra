@@ -15,7 +15,7 @@ spec:
     metadata:
       name: "{{ `{{path.basename}}` }}{{ if .Values.deploy_env }}-{{ .Values.deploy_env }}{{ end }}"
     spec:
-      project: {{ printf "%s-%s" .Values.appProjectName.infra .Values.deploy_env | trimSuffix "-" }}
+      project: {{ printf "%s-%s" .Values.appProjectName.gateway .Values.deploy_env | trimSuffix "-" }}
       source:
         repoURL: {{ .Values.repo }}
         targetRevision: main
@@ -23,9 +23,9 @@ spec:
         helm:
           valueFiles:
             - values.yaml
-            {{- if eq .Values.deploy_env "prod"}}
+            {{- if eq .Values.deploy_env "prod" }}
             - values-prod.yaml
-            {{- end}}
+            {{- end }}
       destination:
         server: {{ .Values.curCluster }}
         namespace: {{ printf "%s-%s" .Values.namespace.gateway .Values.deploy_env | trimSuffix "-" }}

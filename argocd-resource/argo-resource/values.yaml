@@ -10,9 +10,10 @@ ambientLabels:
   istio.io/dataplane-mode: ambient
 
 appProjectName:
-  infra: "argo-infra-project"
   db: "argo-database-project"
   app: "argo-application-project"
+  gateway: "argo-gateway-project"
+  preDeploy: "argo-pre-deploy-project"
 
 repo: "https://github.com/MarkTerrious/Go_MSAProject_Infra"
 curCluster: "https://kubernetes.default.svc"

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ printf "%s-%s" .Values.appProjectName.gateway .Values.deploy_env | trimSuffix "-" }}
+  labels:
+    {{- include "argo-resource.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  description: GoMSA Project About Deployment of gateway charts
+  sourceRepos:
+    - {{ .Values.repo }}
+  destinations:
+    - server: {{ .Values.curCluster }}
+      namespace: {{ printf "%s-%s" .Values.namespace.gateway .Values.deploy_env | trimSuffix "-" }}
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
