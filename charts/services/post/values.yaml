@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/markterrious/post
   pullPolicy: IfNotPresent
-  tag: "b7c5f54ac79d538fa2d6a7a5587be4c5932a0e29"
+  tag: "0065d0a5278846cb33a07d7f86cb33def5389c61"
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets:
   - name: ghcr-creds
